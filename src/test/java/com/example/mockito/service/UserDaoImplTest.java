@@ -17,7 +17,7 @@ class UserDaoImplTest {
 
     @Test
     public void shouldReturnUserByName() {
-        Assertions.assertEquals(User.class, userDao.getByName(existUser.getName()).getClass());
+        Assertions.assertEquals(existUser, userDao.getByName(existUser.getName()));
     }
 
     @Test

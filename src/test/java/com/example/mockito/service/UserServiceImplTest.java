@@ -8,14 +8,26 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
     private final User existUser = new User("Sereja");
     private final User notExistUser = new User("324323");
-    private User user = new User("Sereja");
+    private final User user = new User("Sereja");
+
+    private final List<User> users = List.of(
+        new User("Sereja"),
+        new User("Volodya"),
+        new User("Denis"),
+        new User("Anton"),
+        new User("Katya")
+    );
 
     @Mock
     private UserDao userDaoMock;
@@ -24,15 +36,18 @@ class UserServiceImplTest {
 
     @Test
     void shouldReturnTrue() {
-        when(userDaoMock.getByName(existUser.getName())).thenReturn(user);
-        Assertions.assertEquals(user, userDaoMock.getByName(existUser.getName()));
-        Assertions.assertTrue(out.checkUserExist(existUser));
+        when(userDaoMock.findAllUsers()).thenReturn(users);
+        assertEquals(users, userDaoMock.findAllUsers());
+        assertTrue(out.checkUserExist(existUser));
+        verify(userDaoMock, times(1)).findAllUsers();
     }
 
     @Test
     void shouldReturnFalse() {
-        when(userDaoMock.getByName(notExistUser.getName())).thenReturn(null);
-        Assertions.assertNull(userDaoMock.getByName(notExistUser.getName()));
-        Assertions.assertFalse(out.checkUserExist(notExistUser));
+        when(userDaoMock.findAllUsers()).thenReturn(users);
+        assertEquals(users, userDaoMock.findAllUsers());
+        assertFalse(out.checkUserExist(notExistUser));
+        verify(userDaoMock, times(1)).findAllUsers();
+
     }
 }

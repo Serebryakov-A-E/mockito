@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUserExist(User user) {
-        List<User> list = userDao.findAllUsers();
-        return list.contains(user);
+        User u = userDao.getByName(user.getName());
+        return u != null;
     }
 }
