@@ -25,7 +25,6 @@ class UserServiceImplTest {
     @Test
     void shouldReturnTrue() {
         when(userDaoMock.getByName(existUser.getName())).thenReturn(user);
-        assertEquals(user, userDaoMock.getByName(existUser.getName())); //Без этого не работает verify
         assertTrue(out.checkUserExist(existUser));
         verify(userDaoMock, times(1)).getByName(existUser.getName());
     }
@@ -33,7 +32,6 @@ class UserServiceImplTest {
     @Test
     void shouldReturnFalse() {
         when(userDaoMock.getByName(notExistUser.getName())).thenReturn(null);
-        assertNull(userDaoMock.getByName(notExistUser.getName()));
         assertFalse(out.checkUserExist(notExistUser));
         verify(userDaoMock, times(1)).getByName(notExistUser.getName());
     }
